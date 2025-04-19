@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Image Uploader Plugin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 20px;
+    }
+    .uploader-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #fileInput {
+      display: block;
+      margin-bottom: 20px;
+    }
+    .preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .img-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .img-wrapper img {
+      max-width: 150px;
+      max-height: 150px;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .img-wrapper .remove-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(255,0,0,0.7);
+      border: none;
+      color: white;
+      padding: 2px 5px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="uploader-container">
+    <h2>Image Uploader</h2>
+    <!-- The plugin will initialize on the div below -->
+    <div id="imageUploader"></div>
+  </div>
+
+  <!-- jQuery (required) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Our custom jQuery plugin for uploading images with preview and delete functionality.
+    (function($){
+      $.fn.simpleImageUploader = function(options) {
+        // default settings
+        var settings = $.extend({
+          maxFiles: 10
+        }, options);
+
+        return this.each(function(){
+          var $container = $(this);
+          // Build the markup for the uploader: a file input and a preview container.
+          var markup = '<input type="file" id="fileInput" multiple accept="image/*" />' +
+                       '<div class="preview-container"></div>';
+          $container.html(markup);
+
+          var $fileInput = $container.find('#fileInput');
+          var $previewContainer = $container.find('.preview-container');
+          var filesArray = [];
+
+          // When a file selection is made:
+          $fileInput.on('change', function(e){
+            var files = e.target.files;
+            // Process each selected file
+            $.each(files, function(i, file){
+              // Check if file is an image and we are within the allowed limit
+              if(!file.type.match('image.*') || filesArray.length >= settings.maxFiles) return;
+              
+              filesArray.push(file);
+              // Create a URL for the image to display a preview.
+              var imageUrl = URL.createObjectURL(file);
+              // Create the preview markup.
+              var $imgWrapper = $('<div class="img-wrapper"></div>');
+              var $img = $('<img src="' + imageUrl + '" alt="Image Preview" />');
+              var $removeBtn = $('<button type="button" class="remove-btn">X</button>');
+              
+              $imgWrapper.append($img).append($removeBtn);
+              $previewContainer.append($imgWrapper);
+
+              // Bind remove action to the delete button.
+              $removeBtn.on('click', function(){
+                // Remove this image preview
+                var index = $imgWrapper.index();
+                $imgWrapper.remove();
+                // Remove the corresponding file from our filesArray
+                filesArray.splice(index, 1);
+              });
+            });
+            // Reset the file input (optional, so same file can be reselected if needed)
+            $fileInput.val('');
+          });
+        });
+      };
+    })(jQuery);
+
+    // Initialize our plugin on the #imageUploader div
+    $(document).ready(function(){
+      $('#imageUploader').simpleImageUploader({
+        maxFiles: 10  // Limit the uploader to 10 files (change as needed)
+      });
+    });
+  </script>
+</body>
+</html>

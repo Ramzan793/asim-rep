@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drag & Drop Image Uploader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .drop-container {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      width: 600px;
+      height: 300px;
+      margin: 20px auto;
+      position: relative;
+      background-color: #fff;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    /* When hovering over the drop container */
+    .drop-container.hover {
+      border-color: #007BFF;
+      background-color: #e8f0fe;
+    }
+    /* Centered content inside the drop container */
+    .center-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+    }
+    .center-content button {
+      pointer-events: auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .center-content p {
+      margin-top: 10px;
+      color: #333;
+    }
+    /* Preview container for displaying image thumbnails */
+    .preview-container {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .preview-wrapper {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .preview-wrapper img {
+      max-width: 150px;
+      max-height: 150px;
+      display: block;
+    }
+    .remove-preview {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(255,0,0,0.7);
+      border: none;
+      color: white;
+      padding: 2px 5px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Drag & Drop Image Uploader</h2>
+  <div class="drop-container" id="dropContainer">
+    <!-- Hidden file input for manual selection -->
+    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+    <div class="center-content">
+      <button id="selectButton">Select Images</button>
+      <p>or drag and drop images here</p>
+    </div>
+  </div>
+  <div class="preview-container" id="previewContainer"></div>
+
+  <!-- jQuery (for handling events and simplicity) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      var $dropContainer = $('#dropContainer');
+      var $fileInput = $('#fileInput');
+      var $previewContainer = $('#previewContainer');
+
+      // When the select button is clicked, trigger the file input.
+      $('#selectButton').click(function(){
+        $fileInput.click();
+      });
+
+      // Handle file input change event.
+      $fileInput.on('change', function(e){
+        handleFiles(e.target.files);
+      });
+
+      // Handle drag over: prevent default behavior and add hover class.
+      $dropContainer.on('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $dropContainer.addClass('hover');
+      });
+
+      // Remove hover class when the drag leaves the container.
+      $dropContainer.on('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $dropContainer.removeClass('hover');
+      });
+
+      // Handle file drop.
+      $dropContainer.on('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $dropContainer.removeClass('hover');
+        var files = e.originalEvent.dataTransfer.files;
+        handleFiles(files);
+      });
+
+      // Function to process files and generate image previews with remove buttons.
+      function handleFiles(files) {
+        $.each(files, function(index, file) {
+          if (!file.type.match('image.*')) {
+            return;
+          }
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            // Create wrapper for each image preview.
+            var $previewWrapper = $('<div class="preview-wrapper"></div>');
+            var $img = $('<img>').attr('src', e.target.result);
+            var $removeBtn = $('<button type="button" class="remove-preview">X</button>');
+            // Append elements and add remove functionality.
+            $previewWrapper.append($img).append($removeBtn);
+            $previewContainer.append($previewWrapper);
+            $removeBtn.on('click', function(){
+              $previewWrapper.remove();
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

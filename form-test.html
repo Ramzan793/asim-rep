@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Package Selection Form</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    .custom-select-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .multi-dropdown {
+      display: none;
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    .apply-btn {
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <div class="mb-3">
+												<label class="form-label">Full Name</label>
+												<input type="text" class="form-control">
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Business Name</label>
+												<input type="text" class="form-control">
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Contact Number</label>
+												<input class="form-control" name="phone" type="tel">
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Email Address</label>
+												<input type="email" class="form-control">
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Profile Image(optional but recommended for
+													credibility)</label>
+												<input type="file" class="form-control">
+											</div>
+											<div class="mb-3">
+												<div
+													class="d-flex align-items-center justify-content-between flex-wrap">
+													<label class="form-label">Password</label>
+													<p class="text-gray-6 fw-medium  mb-1">Must be 8 Characters at
+														Least</p>
+												</div>
+												<input type="password" class="form-control">
+											</div>
+											<div class="mb-3 city-sel">
+												<label class="form-label">Select City</label>
+												<select class="select form-control">
+													<option></option>
+													<option>Lahore
+													</option>
+													<option>Rawalpindi
+													</option>
+													<option>Islamabad
+													</option>
+													<option value="">
+														Karachi
+													</option>
+													<option value="">
+														Faisalabad
+													</option>
+													<option value="">
+														Texla
+													</option>
+													<option value="">
+														Gujjrat
+													</option>
+													<option value="">
+														Quetta
+													</option>
+												</select>
+											</div>
+											<div class="custom-select-wrapper">
+												<label class="form-label">Select Areas</label>
+												<div class="selected-items form-control" onclick="toggleDropdown()">
+												</div>
+												<div class="multi-dropdown" id="multiple-dropdown">
+													<div class="apply-btn" onclick="applySelection()">✔ apply
+														selection</div>
+													<div class="options">
+
+														<label><input type="checkbox" value="Johar Town">Johar
+															Town</label>
+														<label><input type="checkbox" value="Wapda Town">Wapda
+															Town</label>
+														<label><input type="checkbox" value="PIA Society">PIA
+															Society</label>
+														<label><input type="checkbox" value="Revenue Society">Revenue
+															Society</label>
+														<label><input type="checkbox" value="Faisal Town">Faisal
+															Town</label>
+														<label><input type="checkbox" value="Jaranwala Road">Jaranwala
+															Road</label>
+														<label><input type="checkbox" value="Jinnah Colony">Jinnah
+															Colony</label>
+														<label><input type="checkbox" value="Madinah Town">Madinah
+															Town</label>
+														<label><input type="checkbox" value="DHA Phase 1">DHA Phase
+															1</label>
+														<label><input type="checkbox" value="DHA Phase 2">DHA Phase
+															2</label>
+														<label><input type="checkbox" value="DHA Phase 3">DHA Phase
+															3</label>
+														<label><input type="checkbox" value="DHA Phase 4">DHA Phase
+															4</label>
+														<label><input type="checkbox" value="Bahria Town">Bahria
+															Town</label>
+													</div>
+												</div>
+											</div>
+											<div class="mb-3">
+												<div
+													class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" value
+															id="remember_me">
+														<label class="form-check-label" for="remember_me">
+															I agree to <a href="terms-use.html"
+																class="term-color text-decoration-underline">Terms of
+																use</a> &
+															<a href="privacy-policy.html"
+																class="term-color text-decoration-underline">Privacy
+																policy</a>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="mb-3">
+												<button type="submit" class="btn btn-lg btn-linear-primary w-100">Sign
+													Up</button>
+											</div>
+											<div class=" d-flex justify-content-center">
+												<p>Already have a account? <a href="login.html" class="term-color">Sign
+														In</a></p>
+											</div> -->
+  <h2>Choose a Package</h2>
+  <div>
+    <label><input type="radio" name="package" value="free" checked> Free Trial</label>
+    <label><input type="radio" name="package" value="standard"> Standard</label>
+    <label><input type="radio" name="package" value="advanced"> Advanced</label>
+    <label><input type="radio" name="package" value="premium"> Premium</label>
+  </div>
+
+  <div class="form-section" id="basic-info">
+    <h3>Basic Information</h3>
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Email">
+  </div>
+
+  <div class="form-section" id="payment-info">
+    <h3>Payment Details</h3>
+    <label><input type="radio" name="billing" value="monthly" checked> Monthly</label>
+    <label><input type="radio" name="billing" value="yearly"> Yearly</label>
+    <p id="price-display"></p>
+  </div>
+
+  <div class="custom-select-wrapper" id="services-wrapper">
+    <label class="form-label">Select Services</label>
+    <div class="selected-items form-control" onclick="toggleDropdown('services')">Select services</div>
+    <div class="multi-dropdown" id="multiple-dropdown-services">
+      <div class="apply-btn" onclick="applySelection('services')">✔ apply selection</div>
+      <div class="options" id="services-options">
+        <label><input type="checkbox" value="Service 1"> Service 1</label>
+        <label><input type="checkbox" value="Service 2"> Service 2</label>
+        <label><input type="checkbox" value="Service 3"> Service 3</label>
+        <label><input type="checkbox" value="Service 4"> Service 4</label>
+        <label><input type="checkbox" value="Service 5"> Service 5</label>
+        <label><input type="checkbox" value="Service 6"> Service 6</label>
+        <label><input type="checkbox" value="Service 7"> Service 7</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <label><input type="radio" name="cityScope" value="single" checked> Single City</label>
+    <label><input type="radio" name="cityScope" value="multiple"> Multiple Cities</label>
+  </div>
+
+  <div class="custom-select-wrapper" id="city-select">
+    <label class="form-label">Select City</label>
+    <div class="selected-items form-control" onclick="toggleDropdown('city')">Select city</div>
+    <div class="multi-dropdown" id="multiple-dropdown-city">
+      <div class="apply-btn" onclick="applySelection('city')">✔ apply selection</div>
+      <div class="options">
+        <label><input type="checkbox" value="Lahore"> Lahore</label>
+        <label><input type="checkbox" value="Karachi"> Karachi</label>
+        <label><input type="checkbox" value="Islamabad"> Islamabad</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-select-wrapper" id="area-select">
+    <label class="form-label">Select Areas</label>
+    <div class="selected-items form-control" onclick="toggleDropdown('area')">Select area</div>
+    <div class="multi-dropdown" id="multiple-dropdown-area">
+      <div class="apply-btn" onclick="applySelection('area')">✔ apply selection</div>
+      <div class="options">
+        <label><input type="checkbox" value="Johar Town">Johar Town</label>
+        <label><input type="checkbox" value="Wapda Town">Wapda Town</label>
+        <label><input type="checkbox" value="PIA Society">PIA Society</label>
+        <label><input type="checkbox" value="Revenue Society">Revenue Society</label>
+        <label><input type="checkbox" value="Faisal Town">Faisal Town</label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const prices = {
+      standard: 100,
+      advanced: 200,
+      premium: 300
+    };
+
+    const limits = {
+      free: Infinity,
+      standard: 3,
+      advanced: 6,
+      premium: Infinity
+    };
+
+    let selectedPackage = 'free';
+
+    function updateFormDisplay() {
+      selectedPackage = document.querySelector('input[name="package"]:checked').value;
+      const paymentInfo = document.getElementById('payment-info');
+      const citySelect = document.getElementById('city-select');
+      const areaSelect = document.getElementById('area-select');
+      const servicesWrapper = document.getElementById('services-wrapper');
+
+      if (selectedPackage === 'free') {
+        paymentInfo.classList.add('hidden');
+        citySelect.classList.remove('hidden');
+        areaSelect.classList.remove('hidden');
+        servicesWrapper.classList.remove('hidden');
+        document.getElementById('price-display').innerText = '';
+      } else {
+        paymentInfo.classList.remove('hidden');
+        servicesWrapper.classList.remove('hidden');
+        citySelect.classList.remove('hidden');
+        areaSelect.classList.remove('hidden');
+        updatePrice();
+      }
+    }
+
+    function updatePrice() {
+      const billing = document.querySelector('input[name="billing"]:checked').value;
+      const basePrice = prices[selectedPackage] || 0;
+      let finalPrice = basePrice;
+      if (billing === 'yearly') {
+        finalPrice = basePrice * 12 * 0.9;
+      }
+      document.getElementById('price-display').innerText = `Price: $${finalPrice.toFixed(2)}`;
+    }
+
+    function toggleDropdown(type) {
+      const dropdown = document.getElementById(`multiple-dropdown-${type}`);
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function applySelection(type) {
+      const wrapper = document.getElementById(`multiple-dropdown-${type}`);
+      const checkboxes = wrapper.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedText = Array.from(checkboxes).map(cb => cb.value).join(', ');
+      wrapper.previousElementSibling.innerText = selectedText || `Select ${type}`;
+      wrapper.style.display = 'none';
+    }
+
+    function enforceLimit() {
+      const checkboxes = document.querySelectorAll('#services-options input[type="checkbox"]');
+      const limit = limits[selectedPackage];
+
+      checkboxes.forEach(cb => cb.disabled = false);
+
+      const checked = Array.from(checkboxes).filter(cb => cb.checked);
+      if (checked.length >= limit) {
+        checkboxes.forEach(cb => {
+          if (!cb.checked) cb.disabled = true;
+        });
+      }
+    }
+
+    document.querySelectorAll('input[name="package"]').forEach(pkg => {
+      pkg.addEventListener('change', () => {
+        updateFormDisplay();
+        enforceLimit();
+      });
+    });
+
+    document.querySelectorAll('#services-options input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', enforceLimit);
+    });
+
+    document.querySelectorAll('input[name="billing"]').forEach(rb => {
+      rb.addEventListener('change', updatePrice);
+    });
+
+    document.querySelectorAll('input[name="cityScope"]').forEach(rb => {
+      rb.addEventListener('change', (e) => {
+        const type = e.target.value;
+        if (type === 'single') {
+          document.getElementById('city-select').classList.remove('hidden');
+          document.getElementById('area-select').classList.remove('hidden');
+        } else {
+          document.getElementById('city-select').classList.remove('hidden');
+          document.getElementById('area-select').classList.add('hidden');
+        }
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+        if (!wrapper.contains(e.target)) {
+          const dropdown = wrapper.querySelector('.multi-dropdown');
+          if (dropdown) dropdown.style.display = 'none';
+        }
+      });
+    });
+
+    // Initialize
+    updateFormDisplay();
+    enforceLimit();
+  </script>
+</body>
+
+</html>
